@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Pattaya&display=swap');
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light;
+  color: #333333;
+  background-color: white;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+.search2{
+  background:  white;
+  min-width: 808px;
+  min-height: 54px;
+  border-radius: 6px;
+  border: 0px solid #ebebeb;
+}
+.search{
+  min-width: 419px;
+  min-height: 43px;
+  border-radius: 6px;
+  background:  radial-gradient(ellipse at center, white 45%, #EFEFEF);
+  border: 1px solid #ebebeb;
+  /* background-color: #FFFFFF; */
+}
+
+.darkmode{
+
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc; /* Default color of the switch */
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  border-radius: 34px;
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white; /* Color of the slider when checked */
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+.name{
+  font-family: 'Pattaya', sans-serif;
+  font-size: 30px;
+  font-weight: 400;
+}
+
+body {
+  margin: 0;
+  /* display: flex; */
+  /* place-items: center; */
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+/* .header-top.page-btn {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 50px;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: transparent; 
+  cursor: pointer;
+  transition: border-color 0.25s;
+} */
+
+button:hover {
+  border-color: #646cff;
+}
+
+
+/* @media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+} */
