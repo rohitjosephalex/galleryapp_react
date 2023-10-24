@@ -140,10 +140,10 @@ position: relative;
 .photo-section{
   position: relative;
 }
-.dowload-btn{
+.copy-btn{
   position: absolute;
   top: 69%;
-  right: 10px;
+  left: 10px;
 }
 .dpbig {
   width: 56px;

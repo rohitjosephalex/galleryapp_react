@@ -21,7 +21,11 @@ function App() {
   const handleCardClick = async (event) => {
     const divKey = event.target.getAttribute('data');
     // console.log( divKey);
-
+    const handleCopyClick = () => {
+      
+        // Copy the selected text to the clipboard
+        document.execCommand('copy');
+      }
     const fetchPopup = async (id) => {
       try {
         const response = await axios.get(`https://api.unsplash.com/photos/${id}`, {
@@ -188,7 +192,7 @@ function App() {
 
                       </div>
                     </div>
-                    <a className='dowload-btn' href={popupData.links.download} download target="_blank" rel="noreferrer">        Download Image</a>
+                    <button className='copy-btn' onClick={handleCopyClick}>share</button>
                     <button className=" popup-content close-button" onClick={togglePopup}>x</button>
                   </div>
                   
