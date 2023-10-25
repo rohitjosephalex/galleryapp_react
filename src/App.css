@@ -1,42 +1,44 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&family=Pattaya&family=Poppins:ital,wght@0,600;1,400&display=swap" rel="stylesheet');
 
 :root {
- 
+
   --body_background: white;
   --body_colour: #333333;
-  --card_background:white;
-  --card_colour:#4F4F4F;
+  --card_background: white;
+  --card_colour: #4F4F4F;
   background-color: var(--body_background);
-  color: var( --body_colour);
-  
-  }
-  [data-theme='dark']{
-    --body_background:#232323;
-    --body_colour: white;
-    --card_background:#141414;
-    --card_colour:#E5E5E5;
-    background-color: var(--body_background);
-  color: var( --body_colour);
-  }
+  color: var(--body_colour);
 
-.grid-item{
-  display: flex;
-  justify-content: center ;
 }
+
+[data-theme='dark'] {
+  --body_background: #232323;
+  --body_colour: white;
+  --card_background: #141414;
+  --card_colour: #E5E5E5;
+  background-color: var(--body_background);
+  color: var(--body_colour);
+}
+
+* {
+  transition: all 0.2s ease-in-out;
+}
+
+.grid-item {
+  display: flex;
+  justify-content: center;
+}
+
 .header-top {
   padding-top: 10px;
-  background-color: var(--body_background)  ;
-  color:var(--body_colour) ;
+  color: var(--body_colour);
   display: flex;
   margin-top: 0px;
-  padding-left: 25px;
+  padding-left: 150px;
   padding-right: 10px;
   align-items: center;
   justify-content: center;
   margin-bottom: 15px;
-
-  /* flex: 1; */
 }
 
 .header-item {
@@ -44,18 +46,83 @@
   margin: 10px;
   font-family: montserrat;
   font-size: 12px;
-}
-
-.header-item {
   font-weight: 700;
-
 }
 
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 38px;
+  height: 19px;
+}
 
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
 
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #858484;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
 
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 15.7px;
+  width: 15.7px;
+  left: px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked+.slider:before {
+  background-color: #858484;
+}
+
+input:checked+.slider {
+  background-color: white;
+}
+
+input:focus+.slider {
+  box-shadow: 0 0 1px #727272;
+}
+
+input:checked+.slider:before {
+  -webkit-transform: translateX(15.7px);
+  -ms-transform: translateX(15.7px);
+  transform: translateX(15.7px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+  width: 15.7px;
+  height: 15.7px;
+  top: 1.5px;
+
+}
 
 .image-search-box {
+  color: white;
+
+  font-family: montserrat;
   /* padding-top: 150px;
   padding-bottom: 150px; */
   height: 384px;
@@ -77,12 +144,12 @@
 }
 
 .card {
-  background-color:var(--card_background);
+  background-color: var(--card_background);
   cursor: pointer;
   color: var(--card_colour);
   width: fit-content;
   height: fit-content;
-  padding-bottom: 10px;
+  padding-bottom: 20px;
   /* border: 1px solid #ccc; */
   border-radius: 8px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
@@ -111,7 +178,7 @@
   width: 945px;
   height: 700px;
   overflow: hidden;
-  background-color:var(--card_background);
+  background-color: var(--card_background);
   color: var(--card_colour);
   border-radius: 15px;
 }
@@ -186,7 +253,8 @@
   font-weight: 700;
   font-size: 10px;
 }
-.download-btn:hover{
+
+.download-btn:hover {
   background-color: #12b556;
 }
 
@@ -220,13 +288,10 @@
   color: #A7A7A7;
   display: flex;
   margin-left: 50px;
-
   gap: 10px;
 }
 
-.download {
-  margin-left: 50px;
-}
+
 
 .tagsection {
   margin-top: 1%;
@@ -239,12 +304,8 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  /* Elements wrap to the next line when they exceed the container's width */
   gap: 0px;
-  /* Add space between flex items as needed */
   max-width: 900px;
-  /* Set a maximum width for the container */
-
 }
 
 
@@ -280,9 +341,11 @@
 
 .likes {
   display: flex;
+  gap: 5px;
 }
 
 .download {
+  margin-left: 50px;
   font-family: montserrat;
   font-weight: 700;
   font-size: 12.8px;
@@ -290,7 +353,10 @@
   margin-right: 10px;
 }
 
-
+.downloadCount{
+  display: flex;
+  gap: 5px;
+}
 
 .photo1 {
   top: 0;
@@ -302,6 +368,7 @@
 }
 
 .creator-section {
+  margin-top: 5px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -365,18 +432,16 @@
 
 .creator-section.like {
   margin-left: auto;
-  margin-right: 10px;
+  margin-right: px;
 
 }
 
 
-.image-search-box {
-  color: white;
-
-  font-family: montserrat;
-}
 
 #download {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-size: 32px;
   font-weight: 700;
   margin: 0%;
@@ -389,9 +454,11 @@
 }
 
 #like {
+  margin-top: 5px;
   margin-left: 10px;
   font-size: 10px;
   font-weight: 700;
+  margin-right: 10px;
 
 
 }
@@ -456,76 +523,7 @@
 }
 
 
-/* The switch - the box around the slider */
-.switch {
-  position: relative;
-  display: inline-block;
-  width: 38px;
-  height: 19px;
-}
 
-/* Hide default HTML checkbox */
-.switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-/* The slider */
-.slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: #858484;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
-
-.slider:before {
-  position: absolute;
-  content: "";
-  height: 15.7px;
-  width: 15.7px;
-  left: 4px;
-  bottom: 4px;
-  background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
-}
-
-input:checked+.slider:before {
-  background-color: #858484;
-}
-
-input:checked+.slider {
-  background-color: white;
-}
-
-input:focus+.slider {
-  box-shadow: 0 0 1px #727272;
-}
-
-input:checked+.slider:before {
-  -webkit-transform: translateX(15.7px);
-  -ms-transform: translateX(15.7px);
-  transform: translateX(15.7px);
-}
-
-/* Rounded sliders */
-.slider.round {
-  border-radius: 34px;
-}
-
-.slider.round:before {
-  border-radius: 50%;
-  width: 15.7px;
-  height: 15.7px;
-  top: 1.5px;
-
-}
 
 .copied-notification {
   position: absolute;
@@ -541,4 +539,157 @@ input:checked+.slider:before {
   left: 42%;
   margin-top: 10px;
   margin-right: 10px;
+}
+
+
+@media (max-width:450px) {
+  #over {
+    width: 95vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  #download {
+    font-size: 24px;
+    text-align: center;
+    width: 95vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .image-search-box {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 372px;
+    background-color: #FFCBCE;
+    background-image: url("../daniel-leone.png");
+    background-size: cover;
+    /* background-position: -0% 35%; */
+
+  }
+
+  .creator-section.dp {
+    width: 20px;
+    height: 20px;
+  }
+
+  #name {
+    font-size: 9px;
+  }
+
+  #userId {
+    font-size: 6px;
+  }
+
+  #like {
+    padding-bottom: 2px;
+    font-size: 6px;
+  }
+
+  #likeicon {
+
+    width: 7px;
+    height: 7px;
+
+  }
+
+  .grid-gallery {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+
+  .header-top {
+    padding-left: 10px;
+  }
+
+  .search-icon {
+    color: var(--body_colour);
+  }
+
+  .input-group {
+    top: 5px;
+    margin-right: 10%;
+
+  }
+
+  .card1 {
+    width: 95vw;
+    height: 700px;
+    overflow: hidden;
+    background-color: var(--card_background);
+    color: var(--card_colour);
+    border-radius: 15px;
+  }
+
+  .copied-notification {
+    left: 30%;
+  }
+
+  .tags {
+    max-width: 900px;
+  }
+
+  .creator-section.like {
+    display: flex;
+    margin-left: 0px;
+    margin-right: 0px;
+
+  }
+
+  .creator-section.user {
+    padding: 0;
+    display: inline-block;
+    margin: 0%;
+    margin-right:auto;
+  }
+
+  .creator-section.count {
+    display: inline-block;
+    font-size: 8px;
+margin-right: 5px;
+  }
+
+  #userIdBig {
+    font-size: 9px;
+  }
+
+  #nameBig {
+    font-family: montserrat;
+    font-weight: 700;
+    font-size: 11px;
+  }
+  .dpbig {
+    width: 46px;
+    height: 46px;
+  }
+  .social{
+    font-size: 10px;
+    margin-right: 50px;
+  }
+.tag{
+margin: 2px;
+}
+.slider.round:before {
+  border-radius: 50%;
+  width: 9px;
+  height: 9px;
+  top: .5px;
+
+}
+.switch {
+  margin-top: 0;
+  margin-left: 10px;
+  position: relative;
+  display: inline-block;
+  width: 25px;
+  height: 10px;
+}
 }

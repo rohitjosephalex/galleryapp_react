@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import { faThumbsUp, faSquareShareNodes, faShareAltSquare } from '@fortawesome/free-solid-svg-icons';
+import { faThumbsUp, faSquareShareNodes, } from '@fortawesome/free-solid-svg-icons';
 import { faInstagram, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { saveAs } from 'file-saver';
@@ -20,18 +20,26 @@ function App() {
   const [popupData, setPopupData] = useState([]);
   const [isCopied, setIsCopied] = useState(false);
   const [download, setDownload] = useState(false);
+  const [showImageSearchDiv, setShowImageSearchDiv] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
+
   const apiKey = 'dd8ln_-asBmyJ6ZwHWl79jCNkTtpSKXDmZkqUdv0mNc';
 
-const darkMode=()=>{
-  document.querySelector('body').setAttribute('data-theme','dark')
-}
-const lightMode=()=>{
-  document.querySelector('body').setAttribute('data-theme','light')
-}
-const toggleTheme=(e)=>{
-if(e.target.checked) darkMode();
-else lightMode();
-}
+
+
+  const toggleMenu = () => {
+    setIsOpen(!isOpen);
+  };
+  const darkMode = () => {
+    document.querySelector('body').setAttribute('data-theme', 'dark')
+  }
+  const lightMode = () => {
+    document.querySelector('body').setAttribute('data-theme', 'light')
+  }
+  const toggleTheme = (e) => {
+    if (e.target.checked) darkMode();
+    else lightMode();
+  }
 
   const handleDownloadClick = () => {
     const downloadImage = async () => {
@@ -109,7 +117,7 @@ else lightMode();
             Authorization: `Client-ID ${apiKey}`,
           },
         });
-
+        console.log(response.data.results[0]);
         setResults(response.data.results);
       } catch (error) {
         console.error('Error fetching data from Unsplash:', error);
@@ -142,40 +150,78 @@ else lightMode();
 
   return (
     <div>
-      <header className='header-top'>
-        <p className='header-item name'>Image Galery</p>
-        <div className='input-group'>
-          {showDiv && (<span>
-            <FontAwesomeIcon icon={faSearch} className="search-icon" />&nbsp;Search Images here
-          </span>)}
-          <input type="text" className='header-item1 search' style={{ position: "relative" }} value={searchTerm}
-            onChange={(e) => { setSearchTerm(e.target.value); setShowDiv(e.target.value === ''); }} />
-        </div>
+      <div className='desktop'>
+        <header className='header-top'>
+          <p className='header-item name'>Image Galery</p>
+          <div className='input-group'>
+            {showDiv && (<span>
+              <FontAwesomeIcon icon={faSearch} className="search-icon" />&nbsp;Search Images here
+            </span>)}
+            <input type="text" className='header-item1 searchDesktop' style={{ position: "relative" }} value={searchTerm}
+              onChange={(e) => { setSearchTerm(e.target.value); setShowDiv(e.target.value === ''); setShowImageSearchDiv(false) }} />
+          </div>
 
-        <div className='header-top page-btn'>
-          <p className='header-item components '>Explore</p>
-          <p className='header-item components'>Collection</p>
-          <p className='header-item components'>Community</p>
+          <div className='header-top page-btn'>
+            <p className='header-item components '>Explore</p>
+            <p className='header-item components'>Collection</p>
+            <p className='header-item components'>Community</p>
+          </div>
+          <div className='header-top dark-btn'>
+            <p className='header-item'>Dark Mode</p>
+            <label className="switch">
+              <input type="checkbox" onChange={toggleTheme} />
+              <span className="slider round"></span>
+            </label>
+          </div>
+        </header>
+      </div>
+      <div className='mobile'><header className='header-top'>
+        <p className='header-item name'>Image Galery</p>
+        <div className='input-groupm'>
+          <span>
+            <FontAwesomeIcon icon={faSearch} className="search-icon" />&nbsp;
+          </span>
+          
         </div>
-        <div className='header-top dark-btn'>
-          <p className='header-item'>Dark Mode</p>
-          <label className="switch">
-            <input type="checkbox" onChange={toggleTheme} />
-            <span className="slider round"></span>
-          </label>
-        </div>
-      </header>
-      <div className='image-search-box'>
-        <p id='download'>Download High Quality Images by Creators</p>
-        <p id='over'>Over 2.4million+ stock Images by our talented commuinty</p>
+        <div className="hamburger-menu">
+            <div className={`hamburger-icon ${isOpen ? 'open' : ''}`} onClick={toggleMenu}>
+              <div className="bar"></div>
+              <div className="bar"></div>
+              <div className="bar"></div>
+            </div>
+            {isOpen && (
+              <ul className="menu-items">
+                <li>Explore</li>
+                <li>Collection</li>
+                <li>Community</li>
+                <li><div className='dark-btnm'>
+                  <p style={{margin:'0px'}} className='header-items'>Dark Mode</p>
+                  <label className="switch">
+                    <input type="checkbox" onChange={toggleTheme} />
+                    <span className="slider round"></span>
+                  </label>
+                </div></li>
+              </ul>
+            )}
+          </div>
+
+      </header></div>
+      {showImageSearchDiv && (<div className='image-search-box'>
+        <p id='download' >Download High Quality Images by Creators</p>
+        <p id='over' style={{ display: 'flex', justifyContent: 'center', alignContent: 'center' }}>Over 2.4million+ stock Images by our talented commuinty</p>
         <div className='input-group2'>
           {showDiv && (<span style={{ margin: '0', padding: '0' }}>
-            <FontAwesomeIcon icon={faSearch} className="search-icon2" />&nbsp;Search high resolution Images, categories, wallpaper
+            <div className='desktop'>
+              <FontAwesomeIcon icon={faSearch} className="search-icon2" />&nbsp;Search high resolution Images, categories, wallpaper
+            </div>
+            <div className='mobile'>
+              <FontAwesomeIcon icon={faSearch} className="search-icon2" />&nbsp;Search high resolution Images
+            </div>
           </span>)}
           <input type="text" className='search2' id='s2' value={searchTerm}
             onChange={(e) => { setSearchTerm(e.target.value); setShowDiv(e.target.value === ''); }} />
         </div>
-      </div>
+      </div>)}
       <div className='grid-gallery'>
         <ResponsiveMasonry
           columnsCountBreakPoints={{ 350: 1, 750: 2, 900: 3 }}
@@ -222,15 +268,19 @@ else lightMode();
                           <div  >  <FontAwesomeIcon id='instaIcon' icon={faInstagram} /> {popupData.user.instagram_username}</div>
                           <div  ><FontAwesomeIcon id='twitterIcon' icon={faTwitter} /> {popupData.user.social.twitter_username} </div>
                         </div>
-
-                        <div className='creator-section like'>
-                          <div className='creator-section download' >
-
-                            <div>{popupData.downloads}</div>
-                            <div>Download</div>
+                        <div className='creator-section count'>
+                          <div className='creator-section like'>
+                            <div className='creator-section downloads' >
+                            </div>
+                            <div className='downloadCount'>
+                              <div>{popupData.downloads}</div>
+                              <div>Download</div>
+                            </div>
                           </div>
-                          <FontAwesomeIcon id='thumbsupIcon' icon={faThumbsUp} />
-                          <div id='like2'>{popupData.likes}</div>
+                          <div className='likes'>
+                            <FontAwesomeIcon id='thumbsupIcon' icon={faThumbsUp} />
+                            <div id='like2'>{popupData.likes}</div>
+                          </div>
                         </div>
                       </div>
                       <div className='creator-section tagsection'>
