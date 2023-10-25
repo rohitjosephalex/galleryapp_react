@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import { faThumbsUp } from '@fortawesome/free-solid-svg-icons';
+import { faThumbsUp ,faSquareShareNodes,faShareAltSquare } from '@fortawesome/free-solid-svg-icons';
 import { faInstagram, faTwitter } from '@fortawesome/free-brands-svg-icons';
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry"
 
@@ -17,19 +17,53 @@ function App() {
   const [showDiv, setShowDiv] = useState(true);
   const [isExpanded, setExpanded] = useState(false);
   const [popupData, setPopupData] = useState([]);
+  const [isCopied, setIsCopied] = useState(false);
+  const [download, setDownload] = useState(false);
   const apiKey = 'dd8ln_-asBmyJ6ZwHWl79jCNkTtpSKXDmZkqUdv0mNc';
+const handleDownloadClick=()=>{
+  const download = async () => {
+      
+    try {
+      const response = await axios.get(`https://api.unsplash.com/photos/wbSgsDTqRl0/download?ixid=M3w1MTgyMDN8MHwxfGFsbHx8fHx8fHx8fDE2OTgyMzYyNzl8`, {
+        
+        headers: {
+          Authorization: `Client-ID ${apiKey}`,
+        },
+        // responseType: 'blob',
+      });
+      const photoBlob = new Blob([response.data.url]);
+      const downloadUrl = URL.createObjectURL(photoBlob);
+
+  
+     
+      setDownload(downloadUrl);
+      // console.log('download',response.data.url);
+    } catch (error) {
+      console.error('Error fetching data from Unsplash:', error);
+    }
+  };
+  download();
+}
+  const handleCopyClick = () => {
+   
+    // console.log('copied')
+   
+    setIsCopied(true);
+    setTimeout(() => {
+      setIsCopied(false);
+    }, 2000);
+   
+  };
+
   const handleCardClick = async (event) => {
     const divKey = event.target.getAttribute('data');
     // console.log( divKey);
-    const handleCopyClick = () => {
-      
-        // Copy the selected text to the clipboard
-        document.execCommand('copy');
-      }
+    
     const fetchPopup = async (id) => {
+      
       try {
         const response = await axios.get(`https://api.unsplash.com/photos/${id}`, {
-
+          
           headers: {
             Authorization: `Client-ID ${apiKey}`,
           },
@@ -53,10 +87,11 @@ function App() {
 
   useEffect(() => {
     const fetchData = async () => {
+
       try {
         const response = await axios.get('https://api.unsplash.com/search/photos', {
           params: {
-            query: searchTerm,
+            query: searchTerm, per_page:100,
           },
           headers: {
             Authorization: `Client-ID ${apiKey}`,
@@ -71,6 +106,9 @@ function App() {
     const loadRandom = async () => {
       try {
         const response = await axios.get('https://api.unsplash.com/photos', {
+          params: {
+            query: searchTerm, per_page:100,
+          },
           headers: {
             Authorization: `Client-ID ${apiKey}`,
           }
@@ -169,8 +207,8 @@ function App() {
                           <div id='userIdBig'> @{popupData.user.username}</div>
                         </div>
                         <div className='creator-section social'>
-                          <div  >  <FontAwesomeIcon id='likeicon' icon={faInstagram} /> {popupData.user.instagram_username}</div>
-                          <div  ><FontAwesomeIcon id='likeicon' icon={faTwitter} /> {popupData.user.social.twitter_username} </div>
+                          <div  >  <FontAwesomeIcon id='instaIcon' icon={faInstagram} /> {popupData.user.instagram_username}</div>
+                          <div  ><FontAwesomeIcon id='twitterIcon' icon={faTwitter} /> {popupData.user.social.twitter_username} </div>
                         </div>
 
                         <div className='creator-section like'>
@@ -179,8 +217,8 @@ function App() {
                             <div>{popupData.downloads}</div>
                             <div>Download</div>
                           </div>
-                          <FontAwesomeIcon id='likeicon' icon={faThumbsUp} />
-                          <div id='like'>{popupData.likes}</div>
+                          <FontAwesomeIcon id='thumbsupIcon' icon={faThumbsUp} />
+                          <div id='like2'>{popupData.likes}</div>
                         </div>
                       </div>
                       <div className='creator-section tagsection'>
@@ -192,7 +230,11 @@ function App() {
 
                       </div>
                     </div>
-                    <button className='copy-btn' onClick={handleCopyClick}>share</button>
+                    <button className='copy-btn' onClick={() => {navigator.clipboard.writeText(popupData.urls.full); handleCopyClick(); }}><FontAwesomeIcon icon={faSquareShareNodes} className="share-icon" /></button>
+                    {isCopied && (<div className='copied-notification'>Copied to clipboard!</div>)}
+                    <a href='https://images.unsplash.com/photo-1682695794947-17061dc284dd?crop=entropy&cs=srgb&fm=jpg&ixid=M3w1MTgyMDN8MHwxfGFsbHx8fHx8fHx8fDE2OTgyMzY3NDN8&ixlib=rb-4.0.3&q=85'  download='unsplash-photo.jpg'>
+                    <button className='download-btn' >Download Image</button></a>
+                    {/* {isCopied && (<div className='copied-notification'>Copied to clipboard!</div>)} */}
                     <button className=" popup-content close-button" onClick={togglePopup}>x</button>
                   </div>
                   
