@@ -4,12 +4,16 @@
 --body_background: white;
 --body_colour: #333333;
 --card_background:white;
+--search_background:radial-gradient(ellipse at center, white 45%, #EFEFEF);
+--search_border:#ebebeb;
 
 }
 [data-theme='dark']{
   --body_background:#232323;
   --body_colour: white;
   --card_background:#141414;
+  --search_background:#4F4F4F;
+  --search_border:#858484;
 }
 .search2{
   background:  white;
@@ -26,8 +30,8 @@
   min-width: 419px;
   min-height: 43px;
   border-radius: 6px;
-  background:  radial-gradient(ellipse at center, white 45%, #EFEFEF);
-  border: 1px solid #ebebeb;
+  background:  var(--search_background);
+  border: 1px solid var(--search_border);
   /* background-color: #FFFFFF; */
 }
 
