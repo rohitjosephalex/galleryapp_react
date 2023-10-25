@@ -391,6 +391,7 @@ input:checked+.slider:before {
   display: inline-block;
   margin: 0%;
   margin-left: 5px;
+    margin-right:auto;
 }
 
 .tag-heading {
