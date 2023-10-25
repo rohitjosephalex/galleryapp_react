@@ -4,9 +4,10 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
-import { faThumbsUp ,faSquareShareNodes,faShareAltSquare } from '@fortawesome/free-solid-svg-icons';
+import { faThumbsUp, faSquareShareNodes, faShareAltSquare } from '@fortawesome/free-solid-svg-icons';
 import { faInstagram, faTwitter } from '@fortawesome/free-brands-svg-icons';
-import Masonry, { ResponsiveMasonry } from "react-responsive-masonry"
+import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
+import { saveAs } from 'file-saver';
 
 
 
@@ -20,50 +21,61 @@ function App() {
   const [isCopied, setIsCopied] = useState(false);
   const [download, setDownload] = useState(false);
   const apiKey = 'dd8ln_-asBmyJ6ZwHWl79jCNkTtpSKXDmZkqUdv0mNc';
-const handleDownloadClick=()=>{
-  const download = async () => {
-      
-    try {
-      const response = await axios.get(`https://api.unsplash.com/photos/wbSgsDTqRl0/download?ixid=M3w1MTgyMDN8MHwxfGFsbHx8fHx8fHx8fDE2OTgyMzYyNzl8`, {
-        
-        headers: {
-          Authorization: `Client-ID ${apiKey}`,
-        },
-        // responseType: 'blob',
-      });
-      const photoBlob = new Blob([response.data.url]);
-      const downloadUrl = URL.createObjectURL(photoBlob);
 
-  
-     
-      setDownload(downloadUrl);
-      // console.log('download',response.data.url);
-    } catch (error) {
-      console.error('Error fetching data from Unsplash:', error);
-    }
-  };
-  download();
+const darkMode=()=>{
+  document.querySelector('body').setAttribute('data-theme','dark')
 }
+const lightMode=()=>{
+  document.querySelector('body').setAttribute('data-theme','light')
+}
+const toggleTheme=(e)=>{
+if(e.target.checked) darkMode();
+else lightMode();
+}
+
+  const handleDownloadClick = () => {
+    const downloadImage = async () => {
+
+      try {
+        const response = await axios.get(`${popupData.links.download_location}`, {
+
+          headers: {
+            Authorization: `Client-ID ${apiKey}`,
+          },
+        });
+
+
+
+
+        setDownload(response.data.url);
+        console.log('download', response);
+      } catch (error) {
+        console.error('Error fetching data from Unsplash:', error);
+      }
+    };
+    downloadImage();
+    saveAs(download, `${popupData.alt_description}.jpg`)
+  }
   const handleCopyClick = () => {
-   
+
     // console.log('copied')
-   
+
     setIsCopied(true);
     setTimeout(() => {
       setIsCopied(false);
     }, 2000);
-   
+
   };
 
   const handleCardClick = async (event) => {
     const divKey = event.target.getAttribute('data');
     // console.log( divKey);
-    
+
     const fetchPopup = async (id) => {
-      
+
       try {
         const response = await axios.get(`https://api.unsplash.com/photos/${id}`, {
-          
+
           headers: {
             Authorization: `Client-ID ${apiKey}`,
           },
@@ -91,7 +103,7 @@ const handleDownloadClick=()=>{
       try {
         const response = await axios.get('https://api.unsplash.com/search/photos', {
           params: {
-            query: searchTerm, per_page:100,
+            query: searchTerm, per_page: 100,
           },
           headers: {
             Authorization: `Client-ID ${apiKey}`,
@@ -107,7 +119,7 @@ const handleDownloadClick=()=>{
       try {
         const response = await axios.get('https://api.unsplash.com/photos', {
           params: {
-            query: searchTerm, per_page:100,
+            query: searchTerm, per_page: 100,
           },
           headers: {
             Authorization: `Client-ID ${apiKey}`,
@@ -148,7 +160,7 @@ const handleDownloadClick=()=>{
         <div className='header-top dark-btn'>
           <p className='header-item'>Dark Mode</p>
           <label className="switch">
-            <input type="checkbox" />
+            <input type="checkbox" onChange={toggleTheme} />
             <span className="slider round"></span>
           </label>
         </div>
@@ -196,7 +208,7 @@ const handleDownloadClick=()=>{
                     <div className={`card1`}  >
                       <div className='photo-section1' >
                         <img src={popupData.urls.regular} alt={popupData.alt_description} className='photoBig' data={popupData.id} />
-                        
+
                       </div>
                       <div className='creator-section big' >
                         <div className='creator-section dpbig'>
@@ -230,14 +242,14 @@ const handleDownloadClick=()=>{
 
                       </div>
                     </div>
-                    <button className='copy-btn' onClick={() => {navigator.clipboard.writeText(popupData.urls.full); handleCopyClick(); }}><FontAwesomeIcon icon={faSquareShareNodes} className="share-icon" /></button>
+                    <button className='copy-btn' onClick={() => { navigator.clipboard.writeText(popupData.urls.full); handleCopyClick(); }}><FontAwesomeIcon icon={faSquareShareNodes} className="share-icon" /></button>
                     {isCopied && (<div className='copied-notification'>Copied to clipboard!</div>)}
-                    <a href='https://images.unsplash.com/photo-1682695794947-17061dc284dd?crop=entropy&cs=srgb&fm=jpg&ixid=M3w1MTgyMDN8MHwxfGFsbHx8fHx8fHx8fDE2OTgyMzY3NDN8&ixlib=rb-4.0.3&q=85'  download='unsplash-photo.jpg'>
-                    <button className='download-btn' >Download Image</button></a>
+                    <a download>
+                      <button className='download-btn' onClick={handleDownloadClick}>Download Image</button></a>
                     {/* {isCopied && (<div className='copied-notification'>Copied to clipboard!</div>)} */}
                     <button className=" popup-content close-button" onClick={togglePopup}>x</button>
                   </div>
-                  
+
                 </div>
               )}
             </div>))}

@@ -1,18 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Pattaya&display=swap');
 :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+ 
+--body_background: white;
+--body_colour: #333333;
+--card_background:white;
 
-  color-scheme: light;
-  color: #333333;
-  background-color: white;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  -webkit-text-size-adjust: 100%;
+}
+[data-theme='dark']{
+  --body_background:#232323;
+  --body_colour: white;
+  --card_background:#141414;
 }
 .search2{
   background:  white;
