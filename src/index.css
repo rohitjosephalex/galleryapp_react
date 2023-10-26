@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Pattaya&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&family=Pattaya&family=Poppins:ital,wght@0,600;1,400&display=swap" rel="stylesheet');
 
 :root {
 
@@ -85,6 +85,7 @@ button:hover {
   }
 
   .hamburger-menu {
+    font-family: montserrat;
     top: 0;
     left: 50;
     position: relative;
@@ -119,6 +120,7 @@ button:hover {
   }
 
   .menu-items {
+    font-family: montserrat;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     width: 15vh;
     height: 20vh;
@@ -154,8 +156,8 @@ button:hover {
     font-size: 10px;
   }
 
-  .input-groupm{
-margin-left: 50%  ;
+  .input-groupm {
+    margin-left: 50%;
     position: absolute;
     top: 50;
     right: 50;

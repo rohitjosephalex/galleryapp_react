@@ -22,6 +22,8 @@ function App() {
   const [download, setDownload] = useState(false);
   const [showImageSearchDiv, setShowImageSearchDiv] = useState(true);
   const [isOpen, setIsOpen] = useState(false);
+  const [likeCount, setLikeCount] = useState('');
+  const [downloadCount, setDownloadCount] = useState('');
 
   const apiKey = 'dd8ln_-asBmyJ6ZwHWl79jCNkTtpSKXDmZkqUdv0mNc';
 
@@ -41,6 +43,7 @@ function App() {
     else lightMode();
   }
 
+  // used to download the image
   const handleDownloadClick = () => {
     const downloadImage = async () => {
 
@@ -78,7 +81,7 @@ function App() {
   const handleCardClick = async (event) => {
     const divKey = event.target.getAttribute('data');
     // console.log( divKey);
-
+    // load the popup images when id is passed
     const fetchPopup = async (id) => {
 
       try {
@@ -90,6 +93,27 @@ function App() {
         });
 
         setPopupData(response.data);
+        if(popupData.likes>1000 )
+         {
+          const like=Math.floor(popupData.likes/1000);
+
+
+          setLikeCount(`${like}K`)
+        }
+        else{
+          setLikeCount(popupData.likes)
+
+        }
+        if(popupData.downloads>1000)
+        {
+ 
+         const download=Math.floor(popupData.downloads/1000);
+         setDownloadCount(`${download}K`)
+
+       }
+       else{
+         setDownloadCount(popupData.downloads)
+       }
         console.log(response.data);
         setExpanded(!isExpanded);
       } catch (error) {
@@ -107,7 +131,7 @@ function App() {
 
   useEffect(() => {
     const fetchData = async () => {
-
+      //search for a specific set of images
       try {
         const response = await axios.get('https://api.unsplash.com/search/photos', {
           params: {
@@ -123,6 +147,7 @@ function App() {
         console.error('Error fetching data from Unsplash:', error);
       }
     };
+    //loads a random set of images on the load screen
     const loadRandom = async () => {
       try {
         const response = await axios.get('https://api.unsplash.com/photos', {
@@ -181,29 +206,29 @@ function App() {
           <span>
             <FontAwesomeIcon icon={faSearch} className="search-icon" />&nbsp;
           </span>
-          
+
         </div>
         <div className="hamburger-menu">
-            <div className={`hamburger-icon ${isOpen ? 'open' : ''}`} onClick={toggleMenu}>
-              <div className="bar"></div>
-              <div className="bar"></div>
-              <div className="bar"></div>
-            </div>
-            {isOpen && (
-              <ul className="menu-items">
-                <li>Explore</li>
-                <li>Collection</li>
-                <li>Community</li>
-                <li><div className='dark-btnm'>
-                  <p style={{margin:'0px'}} className='header-items'>Dark Mode</p>
-                  <label className="switch">
-                    <input type="checkbox" onChange={toggleTheme} />
-                    <span className="slider round"></span>
-                  </label>
-                </div></li>
-              </ul>
-            )}
+          <div className={`hamburger-icon ${isOpen ? 'open' : ''}`} onClick={toggleMenu}>
+            <div className="bar"></div>
+            <div className="bar"></div>
+            <div className="bar"></div>
           </div>
+          {isOpen && (
+            <ul className="menu-items">
+              <li>Explore</li>
+              <li>Collection</li>
+              <li>Community</li>
+              <li><div className='dark-btnm'>
+                <p style={{ margin: '0px' }} className='header-items'>Dark Mode</p>
+                <label className="switch">
+                  <input type="checkbox" onChange={toggleTheme} />
+                  <span className="slider round"></span>
+                </label>
+              </div></li>
+            </ul>
+          )}
+        </div>
 
       </header></div>
       {showImageSearchDiv && (<div className='image-search-box'>
@@ -257,30 +282,32 @@ function App() {
 
                       </div>
                       <div className='creator-section big' >
-                        <div className='creator-section dpbig'>
-                          <img className='dpic' src={popupData.user.profile_image.medium} alt="dp" />
-                        </div>
-                        <div className='creator-section user'>
-                          <div id='nameBig'>{popupData.user.first_name}</div>
-                          <div id='userIdBig'> @{popupData.user.username}</div>
+                        <div className='creator-section userdetailsbig'>
+                          <div className='creator-section dpbig'>
+                            <img className='dpic' src={popupData.user.profile_image.medium} alt="dp" />
+                          </div>
+                          <div className='creator-section user'>
+                            <div id='nameBig'>{popupData.user.first_name}</div>
+                            <div id='userIdBig'> @{popupData.user.username}</div>
+                          </div>
                         </div>
                         <div className='creator-section social'>
-                          <div  >  <FontAwesomeIcon id='instaIcon' icon={faInstagram} /> {popupData.user.instagram_username}</div>
-                          <div  ><FontAwesomeIcon id='twitterIcon' icon={faTwitter} /> {popupData.user.social.twitter_username} </div>
+                          <div  style={{display:'flex',flexDirection:'row',gap:'5px'}}>  <FontAwesomeIcon id='instaIcon' icon={faInstagram} /> {popupData.user.instagram_username}</div>
+                          <div style={{display:'flex',flexDirection:'row',gap:'5px'}} ><FontAwesomeIcon id='twitterIcon' icon={faTwitter} /> {popupData.user.social.twitter_username} </div>
                         </div>
                         <div className='creator-section count'>
-                          <div className='creator-section like'>
-                            <div className='creator-section downloads' >
-                            </div>
-                            <div className='downloadCount'>
-                              <div>{popupData.downloads}</div>
-                              <div>Download</div>
-                            </div>
+
+
+                          <div className='downloadCount'>
+                            <div>{downloadCount}</div>
+                            <div>downloads</div>
                           </div>
+
                           <div className='likes'>
                             <FontAwesomeIcon id='thumbsupIcon' icon={faThumbsUp} />
-                            <div id='like2'>{popupData.likes}</div>
+                            <div id='like2'>{likeCount}</div>
                           </div>
+
                         </div>
                       </div>
                       <div className='creator-section tagsection'>
